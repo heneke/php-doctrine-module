@@ -48,10 +48,20 @@ class ORMDefaultFixtureHandlerIntegTest extends AbstractIntegTest
     /**
      * @test
      */
+    public function loadFromFile()
+    {
+        $this->assertEquals(0, $this->recordCount('sample'));
+        $this->handler->load(__DIR__ . '/../../fixtures/SampleFixtures.php', false);
+        $this->assertEquals(1, $this->recordCount('sample'));
+    }
+
+    /**
+     * @test
+     */
     public function loadWithPurge()
     {
         $this->assertEquals(0, $this->recordCount('sample'));
-        $this->handler->load(__DIR__.'/../../fixtures', false);
+        $this->handler->load(__DIR__ . '/../../fixtures', false);
         $this->assertEquals(1, $this->recordCount('sample'));
     }
 
@@ -61,9 +71,9 @@ class ORMDefaultFixtureHandlerIntegTest extends AbstractIntegTest
     public function loadWithAppend()
     {
         $this->assertEquals(0, $this->recordCount('sample'));
-        $this->handler->load(__DIR__.'/../../fixtures', false);
+        $this->handler->load(__DIR__ . '/../../fixtures', false);
         $this->assertEquals(1, $this->recordCount('sample'));
-        $this->handler->load(__DIR__.'/../../fixtures', true);
+        $this->handler->load(__DIR__ . '/../../fixtures', true);
         $this->assertEquals(2, $this->recordCount('sample'));
     }
 
@@ -73,7 +83,7 @@ class ORMDefaultFixtureHandlerIntegTest extends AbstractIntegTest
     public function purgeWithDelete()
     {
         $this->assertEquals(0, $this->recordCount('sample'));
-        $this->handler->load(__DIR__.'/../../fixtures', true);
+        $this->handler->load(__DIR__ . '/../../fixtures', true);
         $this->assertEquals(1, $this->recordCount('sample'));
         $this->handler->purge(false);
         $this->assertEquals(0, $this->recordCount('sample'));
@@ -85,7 +95,7 @@ class ORMDefaultFixtureHandlerIntegTest extends AbstractIntegTest
     public function purgeWithTruncate()
     {
         $this->assertEquals(0, $this->recordCount('sample'));
-        $this->handler->load(__DIR__.'/../../fixtures', true);
+        $this->handler->load(__DIR__ . '/../../fixtures', true);
         $this->assertEquals(1, $this->recordCount('sample'));
         $this->handler->purge(true);
         $this->assertEquals(0, $this->recordCount('sample'));
@@ -108,6 +118,6 @@ class ORMDefaultFixtureHandlerIntegTest extends AbstractIntegTest
      */
     public function emptyFixtures()
     {
-        $this->handler->load(__DIR__.'/../../empty_fixtures');
+        $this->handler->load(__DIR__ . '/../../empty_fixtures');
     }
 }
