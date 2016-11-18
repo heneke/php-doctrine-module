@@ -1,0 +1,13 @@
+HHIT\Doctrine\App\ORM\Entity\SampleEntity:
+  type: entity
+  table: sample
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    value:
+      type: string
+      length: 255
+      nullable: false
