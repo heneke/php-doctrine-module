@@ -35,4 +35,11 @@ interface PersistenceUnit
      * @return string|string[]
      */
     public function getMappingDirectories();
+
+    /**
+     * Returns the directories containing migrations (if any).
+     *
+     * @return string|string[]|null
+     */
+    public function getMigrationsDirectories();
 }

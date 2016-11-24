@@ -40,7 +40,7 @@ interface MigrationsConfigurationSource
     /**
      * @return string
      */
-    public function getDirectory();
+    public function getOutputDirectory();
 
     /**
      * @return string

@@ -119,8 +119,9 @@ class DoctrineClient
 
     public static function create($fileName = 'doctrine.config.php', $subKeyOrm = 'orm', $subKeyDbal = 'dbal', $subKeyMigrations = 'migrations', OutputInterface $output = null)
     {
+        $entityManagerConfigurationSource = ORMConsoleHelper::createEntityManagerConfigurationSource($fileName, $subKeyOrm);
         $entityManager = ORMConsoleHelper::createEntityManager($fileName, $subKeyOrm, $subKeyDbal);
-        $configuration = MigrationsConsoleHelper::createConfigurationFactory($entityManager, $fileName, $subKeyMigrations)->createConfiguration($output);
+        $configuration = MigrationsConsoleHelper::createConfigurationFactory($entityManagerConfigurationSource, $entityManager, $fileName, $subKeyMigrations)->createConfiguration($output);
         $application = ConsoleRunner::createApplication(self::createHelperSet($entityManager, $configuration), self::getCommands());
 
         return new self($entityManager, $configuration, $application);

@@ -33,7 +33,7 @@ class ORMConsoleHelper
 {
     public static function createEntityManager($fileName = 'doctrine.config.php', $subKeyOrm = 'orm', $subKeyDbal = 'dbal')
     {
-        return self::createEntityManagerInternal(self::createSource($fileName, $subKeyOrm), $fileName, $subKeyDbal);
+        return self::createEntityManagerInternal(self::createEntityManagerConfigurationSource($fileName, $subKeyOrm), $fileName, $subKeyDbal);
     }
 
     public static function createEntityManagerFactory(EntityManagerConfigurationSource $source, $fileName = 'doctrine.config.php', $subKeyDbal = 'dbal')
@@ -46,7 +46,7 @@ class ORMConsoleHelper
         return self::createEntityManagerFactory($source, $fileName, $subKeyDbal)->createEntityManager();
     }
 
-    private static function createSource($fileName, $subkey)
+    public static function createEntityManagerConfigurationSource($fileName, $subkey)
     {
         $files = [getcwd().DIRECTORY_SEPARATOR.$fileName, getcwd().DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.$fileName];
         foreach ($files as $file) {

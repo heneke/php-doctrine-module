@@ -41,7 +41,7 @@ return [
         'column' => 'version',
         'table' => 'doctrine_migrations_version',
         'namespace' => 'Some\Name\Space',
-        'directory' => __DIR__ . '/../migrations',
+        'directory' => '/dev/null',     # that directory is never used because migrations are loaded from the persistence unit
         'platform_dependent' => true
     ]
 ];

@@ -27,10 +27,16 @@
 namespace HHIT\Doctrine\Migrations;
 
 use Doctrine\ORM\EntityManagerInterface;
+use HHIT\Doctrine\ORM\Contracts\EntityManagerConfigurationSource;
 use Mockery\MockInterface;
 
 class MigrationsConsoleHelperTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var MockInterface
+     */
+    private $entityManagerConfigurationSource;
+
     /**
      * @var MockInterface
      */
@@ -41,6 +47,7 @@ class MigrationsConsoleHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function before()
     {
+        $this->entityManagerConfigurationSource = \Mockery::mock(EntityManagerConfigurationSource::class);
         $this->entityManager = \Mockery::mock(EntityManagerInterface::class);
     }
 
@@ -58,7 +65,7 @@ class MigrationsConsoleHelperTest extends \PHPUnit_Framework_TestCase
     public function createFactory()
     {
         chdir(__DIR__.'/../../configs');
-        $this->assertNotNull(MigrationsConsoleHelper::createConfigurationFactory($this->entityManager, 'doctrine.config.php'));
+        $this->assertNotNull(MigrationsConsoleHelper::createConfigurationFactory($this->entityManagerConfigurationSource, $this->entityManager, 'doctrine.config.php'));
     }
 
     /**
@@ -68,6 +75,6 @@ class MigrationsConsoleHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function noConfig()
     {
-        MigrationsConsoleHelper::createConfigurationFactory($this->entityManager);
+        MigrationsConsoleHelper::createConfigurationFactory($this->entityManagerConfigurationSource, $this->entityManager);
     }
 }

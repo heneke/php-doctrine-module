@@ -30,13 +30,20 @@ use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use HHIT\Doctrine\Migrations\Contracts\MigrationsConfigurationFactory;
 use HHIT\Doctrine\Migrations\Contracts\MigrationsConfigurationSource;
+use HHIT\Doctrine\ORM\Contracts\EntityManagerConfigurationSource;
+use HHIT\Doctrine\ORM\Contracts\PersistenceUnit;
 
 class MigrationsDefaultConfigurationFactory implements MigrationsConfigurationFactory
 {
     /**
      * @var MigrationsConfigurationSource
      */
-    private $source;
+    private $migrationsConfigurationSource;
+
+    /**
+     * @var EntityManagerConfigurationSource
+     */
+    private $entityManagerConfigurationSource;
 
     /**
      * @var EntityManagerInterface
@@ -48,10 +55,12 @@ class MigrationsDefaultConfigurationFactory implements MigrationsConfigurationFa
      */
     private $configuration;
 
-    public function __construct(MigrationsConfigurationSource $source, EntityManagerInterface $entityManager)
+    public function __construct(MigrationsConfigurationSource $migrationConfigurationSource, EntityManagerConfigurationSource $entityManagerConfigurationSource, EntityManagerInterface $entityManager)
     {
-        $this->source = $source;
+        $this->migrationsConfigurationSource = $migrationConfigurationSource;
+        $this->entityManagerConfigurationSource = $entityManagerConfigurationSource;
         $this->entityManager = $entityManager;
+        $this->entityManagerConfigurationSource = $entityManagerConfigurationSource;
     }
 
     public function createConfiguration()
@@ -69,7 +78,7 @@ class MigrationsDefaultConfigurationFactory implements MigrationsConfigurationFa
     protected function createConfigurationInternal()
     {
         $configuration = new Configuration($this->entityManager->getConnection());
-        switch ($this->source->getMode()) {
+        switch ($this->migrationsConfigurationSource->getMode()) {
             case MigrationsConfigurationSource::MODE_BYYEAR:
                 $configuration->setMigrationsAreOrganizedByYear(true);
                 break;
@@ -79,14 +88,42 @@ class MigrationsDefaultConfigurationFactory implements MigrationsConfigurationFa
             default:
                 break;
         }
-        $configuration->setMigrationsNamespace($this->source->getNamespace());
-        $configuration->setMigrationsColumnName($this->source->getColumnName());
-        $configuration->setMigrationsTableName($this->source->getTableName());
-        $directory = $this->source->getDirectory();
-        if ($this->source->isPlatformDependent()) {
-            $directory .= DIRECTORY_SEPARATOR.$this->entityManager->getConnection()->getDatabasePlatform()->getName();
+        $configuration->setMigrationsNamespace($this->migrationsConfigurationSource->getNamespace());
+        $configuration->setMigrationsColumnName($this->migrationsConfigurationSource->getColumnName());
+        $configuration->setMigrationsTableName($this->migrationsConfigurationSource->getTableName());
+        $directory = $this->migrationsConfigurationSource->getOutputDirectory();
+        $platformDependent = $this->migrationsConfigurationSource->isPlatformDependent();
+        $platform = '';
+        if ($platformDependent) {
+            $platform = $this->entityManager->getConnection()->getDatabasePlatform()->getName();
+            $directory .= DIRECTORY_SEPARATOR . $platform;
         }
         $configuration->setMigrationsDirectory($directory);
+
+        $allMigrationsDirectories = [];
+        foreach ($this->entityManagerConfigurationSource->getPersistenceUnits() as $persistenceUnit) {
+            /**
+             * @var $persistenceUnit PersistenceUnit
+             */
+            $persistenceUnit = new $persistenceUnit;
+            $migrationsDirectories = $persistenceUnit->getMigrationsDirectories();
+            if ($migrationsDirectories !== null) {
+                if (!is_array($migrationsDirectories)) {
+                    $migrationsDirectories = [$migrationsDirectories];
+                }
+                $migrationsDirectories = array_map(function ($d) use ($platformDependent, $platform) {
+                    if ($platformDependent) {
+                        return $d . DIRECTORY_SEPARATOR . $platform;
+                    } else {
+                        return $d;
+                    }
+                }, $migrationsDirectories);
+                $allMigrationsDirectories = array_merge($allMigrationsDirectories, $migrationsDirectories);
+            }
+        }
+        foreach ($allMigrationsDirectories as $migrationsDirectory) {
+            $configuration->registerMigrationsFromDirectory($migrationsDirectory);
+        }
 
         return $configuration;
     }

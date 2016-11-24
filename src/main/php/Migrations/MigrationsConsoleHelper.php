@@ -27,12 +27,13 @@
 namespace HHIT\Doctrine\Migrations;
 
 use Doctrine\ORM\EntityManagerInterface;
+use HHIT\Doctrine\ORM\Contracts\EntityManagerConfigurationSource;
 
 class MigrationsConsoleHelper
 {
-    public static function createConfigurationFactory(EntityManagerInterface $entityManager, $fileName = 'doctrine.config.php', $subkey = 'migrations')
+    public static function createConfigurationFactory(EntityManagerConfigurationSource $entityManagerConfigurationSource, EntityManagerInterface $entityManager, $fileName = 'doctrine.config.php', $subkey = 'migrations')
     {
-        return new MigrationsDefaultConfigurationFactory(self::createConfigurationSource($fileName, $subkey), $entityManager);
+        return new MigrationsDefaultConfigurationFactory(self::createConfigurationSource($fileName, $subkey), $entityManagerConfigurationSource, $entityManager);
     }
 
     private static function createConfigurationSource($fileName, $subkey)

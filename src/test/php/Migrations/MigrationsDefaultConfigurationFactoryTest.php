@@ -27,9 +27,12 @@
 namespace HHIT\Doctrine\Migrations;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\ORM\EntityManagerInterface;
+use HHIT\Doctrine\App\ORM\SamplePersistenceUnit;
 use HHIT\Doctrine\Migrations\Contracts\MigrationsConfigurationSource;
+use HHIT\Doctrine\ORM\Contracts\EntityManagerConfigurationSource;
 use Mockery\MockInterface;
 
 class MigrationsDefaultConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
@@ -37,7 +40,12 @@ class MigrationsDefaultConfigurationFactoryTest extends \PHPUnit_Framework_TestC
     /**
      * @var MockInterface
      */
-    private $configurationSource;
+    private $migrationsConfigurationSource;
+
+    /**
+     * @var MockInterface
+     */
+    private $entityManagerConfigurationSource;
 
     /**
      * @var MockInterface
@@ -45,7 +53,7 @@ class MigrationsDefaultConfigurationFactoryTest extends \PHPUnit_Framework_TestC
     private $entityManager;
 
     /**
-     * @var MockInterface
+     * @var Connection
      */
     private $connection;
 
@@ -59,16 +67,20 @@ class MigrationsDefaultConfigurationFactoryTest extends \PHPUnit_Framework_TestC
      */
     public function before()
     {
-        $this->configurationSource = \Mockery::mock(MigrationsConfigurationSource::class);
-        $this->configurationSource->shouldReceive('getNamespace')->once()->andReturn('Some\Namespace');
-        $this->configurationSource->shouldReceive('getColumnName')->once()->andReturn('column_name');
-        $this->configurationSource->shouldReceive('getTableName')->once()->andReturn('table_name');
-        $this->configurationSource->shouldReceive('getDirectory')->once()->andReturn('/some/dir');
+        $this->migrationsConfigurationSource = \Mockery::mock(MigrationsConfigurationSource::class);
+        $this->migrationsConfigurationSource->shouldReceive('getNamespace')->once()->andReturn('Some\Name\Space');
+        $this->migrationsConfigurationSource->shouldReceive('getColumnName')->once()->andReturn('column_name');
+        $this->migrationsConfigurationSource->shouldReceive('getTableName')->once()->andReturn('table_name');
+        $this->migrationsConfigurationSource->shouldReceive('getOutputDirectory')->once()->andReturn('/some/dir');
+
+        $this->entityManagerConfigurationSource = \Mockery::mock(EntityManagerConfigurationSource::class);
+        $persistenceUnits = [SamplePersistenceUnit::class];
+        $this->entityManagerConfigurationSource->shouldReceive('getPersistenceUnits')->andReturn($persistenceUnits)->once();
 
         $this->entityManager = \Mockery::mock(EntityManagerInterface::class);
-        $this->connection = \Mockery::mock(Connection::class);
+        $this->connection = DriverManager::getConnection(['url' => 'sqlite:///:memory:']);
         $this->entityManager->shouldReceive('getConnection')->andReturn($this->connection);
-        $this->factory = new MigrationsDefaultConfigurationFactory($this->configurationSource, $this->entityManager);
+        $this->factory = new MigrationsDefaultConfigurationFactory($this->migrationsConfigurationSource, $this->entityManagerConfigurationSource, $this->entityManager);
     }
 
     /**
@@ -84,13 +96,13 @@ class MigrationsDefaultConfigurationFactoryTest extends \PHPUnit_Framework_TestC
      */
     public function create_default()
     {
-        $this->configurationSource->shouldReceive('getMode')->once()->andReturnNull();
-        $this->configurationSource->shouldReceive('isPlatformDependent')->once()->andReturn(false);
+        $this->migrationsConfigurationSource->shouldReceive('getMode')->once()->andReturnNull();
+        $this->migrationsConfigurationSource->shouldReceive('isPlatformDependent')->once()->andReturn(false);
 
         $configuration = $this->factory->createConfiguration();
         $this->assertFalse($configuration->areMigrationsOrganizedByYear());
         $this->assertFalse($configuration->areMigrationsOrganizedByYearAndMonth());
-        $this->assertEquals('Some\Namespace', $configuration->getMigrationsNamespace());
+        $this->assertEquals('Some\Name\Space', $configuration->getMigrationsNamespace());
         $this->assertEquals('column_name', $configuration->getMigrationsColumnName());
         $this->assertEquals('table_name', $configuration->getMigrationsTableName());
         $this->assertEquals('/some/dir', $configuration->getMigrationsDirectory());
@@ -101,8 +113,8 @@ class MigrationsDefaultConfigurationFactoryTest extends \PHPUnit_Framework_TestC
      */
     public function create_organize_byyear()
     {
-        $this->configurationSource->shouldReceive('getMode')->once()->andReturn(MigrationsConfigurationSource::MODE_BYYEAR);
-        $this->configurationSource->shouldReceive('isPlatformDependent')->once()->andReturn(false);
+        $this->migrationsConfigurationSource->shouldReceive('getMode')->once()->andReturn(MigrationsConfigurationSource::MODE_BYYEAR);
+        $this->migrationsConfigurationSource->shouldReceive('isPlatformDependent')->once()->andReturn(false);
 
         $configuration = $this->factory->createConfiguration();
         $this->assertTrue($configuration->areMigrationsOrganizedByYear());
@@ -115,8 +127,8 @@ class MigrationsDefaultConfigurationFactoryTest extends \PHPUnit_Framework_TestC
      */
     public function create_organize_byyearandmonth()
     {
-        $this->configurationSource->shouldReceive('getMode')->once()->andReturn(MigrationsConfigurationSource::MODE_BYYEARANDMONTH);
-        $this->configurationSource->shouldReceive('isPlatformDependent')->once()->andReturn(false);
+        $this->migrationsConfigurationSource->shouldReceive('getMode')->once()->andReturn(MigrationsConfigurationSource::MODE_BYYEARANDMONTH);
+        $this->migrationsConfigurationSource->shouldReceive('isPlatformDependent')->once()->andReturn(false);
 
         $configuration = $this->factory->createConfiguration();
         $this->assertTrue($configuration->areMigrationsOrganizedByYear());
@@ -129,9 +141,8 @@ class MigrationsDefaultConfigurationFactoryTest extends \PHPUnit_Framework_TestC
      */
     public function create_platform_dependent()
     {
-        $this->configurationSource->shouldReceive('getMode')->once()->andReturnNull();
-        $this->configurationSource->shouldReceive('isPlatformDependent')->once()->andReturn(true);
-        $this->connection->shouldReceive('getDatabasePlatform')->andReturn(new SqlitePlatform());
+        $this->migrationsConfigurationSource->shouldReceive('getMode')->once()->andReturnNull();
+        $this->migrationsConfigurationSource->shouldReceive('isPlatformDependent')->once()->andReturn(true);
 
         $configuration = $this->factory->createConfiguration();
         $this->assertFalse($configuration->areMigrationsOrganizedByYear());

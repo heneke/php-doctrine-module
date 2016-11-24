@@ -68,7 +68,7 @@ class MigrationsFileConfigurationSourceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('version_table', $configuration->getTableName());
         $this->assertTrue($configuration->isPlatformDependent());
         $this->assertEquals('Some\Name\Space', $configuration->getNamespace());
-        $this->assertEquals('/some/dir', $configuration->getDirectory());
+        $this->assertEquals('/some/dir', $configuration->getOutputDirectory());
     }
 
     /**
@@ -82,6 +82,6 @@ class MigrationsFileConfigurationSourceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('doctrine_migrations_version', $configuration->getTableName());
         $this->assertFalse($configuration->isPlatformDependent());
         $this->assertEquals('Migrations', $configuration->getNamespace());
-        $this->assertEquals(getcwd(), $configuration->getDirectory());
+        $this->assertEquals(getcwd(), $configuration->getOutputDirectory());
     }
 }

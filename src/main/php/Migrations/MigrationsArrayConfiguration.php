@@ -42,7 +42,7 @@ trait MigrationsArrayConfiguration
         return isset($this->getValues()[self::$KEY_COLUMN]) ? $this->getValues()[self::$KEY_COLUMN] : 'version';
     }
 
-    public function getDirectory()
+    public function getOutputDirectory()
     {
         return isset($this->getValues()[self::$KEY_DIRECTORY]) ? $this->getValues()[self::$KEY_DIRECTORY] : getcwd();
     }

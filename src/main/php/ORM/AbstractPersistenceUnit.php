@@ -35,16 +35,29 @@ abstract class AbstractPersistenceUnit implements PersistenceUnit
      */
     private $mappingDirectories;
 
-    public function __construct($mappingDirectories)
+    /**
+     * @var string|string[]|null
+     */
+    private $migrationsDirectories;
+
+    public function __construct($mappingDirectories, $migrationsDirectories = null)
     {
         if (!$mappingDirectories) {
             throw new \InvalidArgumentException('Mapping directory required!');
         }
-        $this->mappingDirectories = (array) $mappingDirectories;
+        $this->mappingDirectories = (array)$mappingDirectories;
+        if ($migrationsDirectories !== null) {
+            $this->migrationsDirectories = (array)$migrationsDirectories;
+        }
     }
 
     public function getMappingDirectories()
     {
         return $this->mappingDirectories;
+    }
+
+    public function getMigrationsDirectories()
+    {
+        return $this->migrationsDirectories;
     }
 }

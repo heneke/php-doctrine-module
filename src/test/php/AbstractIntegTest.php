@@ -127,7 +127,7 @@ abstract class AbstractIntegTest extends \PHPUnit_Framework_TestCase
         $this->connection = $this->entityManager->getConnection();
 
         $this->migrationsConfigurationSource = new MigrationsFileConfigurationSource(__DIR__.'/../configs/doctrine.config.php', 'migrations');
-        $this->migrationsConfigurationFactory = new MigrationsDefaultConfigurationFactory($this->migrationsConfigurationSource, $this->entityManager);
+        $this->migrationsConfigurationFactory = new MigrationsDefaultConfigurationFactory($this->migrationsConfigurationSource, $this->entityManagerConfigurationSource, $this->entityManager);
         $this->migrationsConfiguration = $this->migrationsConfigurationFactory->createConfiguration();
 
         $this->migrationsHandler = new MigrationsDefaultHandler($this->migrationsConfiguration);
