@@ -26,6 +26,7 @@
 
 namespace HHIT\Doctrine\ORM;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
@@ -61,6 +62,8 @@ class EntityManagerDefaultFactory implements EntityManagerFactory
     {
         $this->configurationFactory = $configurationFactory;
         $this->connectionFactory = $connectionFactory;
+
+        AnnotationRegistry::registerFile(__DIR__ . '/Annotation/BindEntity.php');
     }
 
     public function createEntityManager()

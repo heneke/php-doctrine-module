@@ -27,10 +27,12 @@
 namespace HHIT\Doctrine\App\ORM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use HHIT\Doctrine\ORM\BindEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="sample")
+ * @BindEntity("SampleEntity")
  */
 class SampleEntity
 {
