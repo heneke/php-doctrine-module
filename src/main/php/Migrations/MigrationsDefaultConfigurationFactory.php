@@ -108,16 +108,13 @@ class MigrationsDefaultConfigurationFactory implements MigrationsConfigurationFa
             $persistenceUnit = new $persistenceUnit();
             $migrationsDirectories = $persistenceUnit->getMigrationsDirectories();
             if ($migrationsDirectories !== null) {
-                if (!is_array($migrationsDirectories)) {
-                    $migrationsDirectories = [$migrationsDirectories];
-                }
                 $migrationsDirectories = array_map(function ($d) use ($platformDependent, $platform) {
                     if ($platformDependent) {
                         return $d.DIRECTORY_SEPARATOR.$platform;
                     } else {
                         return $d;
                     }
-                }, $migrationsDirectories);
+                }, (array) $migrationsDirectories);
                 $allMigrationsDirectories = array_merge($allMigrationsDirectories, $migrationsDirectories);
             }
         }
