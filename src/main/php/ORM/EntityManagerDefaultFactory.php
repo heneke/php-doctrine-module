@@ -63,7 +63,7 @@ class EntityManagerDefaultFactory implements EntityManagerFactory
         $this->configurationFactory = $configurationFactory;
         $this->connectionFactory = $connectionFactory;
 
-        AnnotationRegistry::registerFile(__DIR__ . '/Annotation/BindEntity.php');
+        AnnotationRegistry::registerFile(__DIR__.'/Annotation/BindEntity.php');
     }
 
     public function createEntityManager()

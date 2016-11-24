@@ -32,6 +32,6 @@ class SamplePersistenceUnit extends AbstractPersistenceUnit
 {
     public function __construct()
     {
-        parent::__construct(__DIR__.'/Entity', __DIR__ . '/../../../migrations');
+        parent::__construct(__DIR__.'/Entity', __DIR__.'/../../../migrations');
     }
 }

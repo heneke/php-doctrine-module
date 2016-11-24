@@ -45,9 +45,9 @@ abstract class AbstractPersistenceUnit implements PersistenceUnit
         if (!$mappingDirectories) {
             throw new \InvalidArgumentException('Mapping directory required!');
         }
-        $this->mappingDirectories = (array)$mappingDirectories;
+        $this->mappingDirectories = (array) $mappingDirectories;
         if ($migrationsDirectories !== null) {
-            $this->migrationsDirectories = (array)$migrationsDirectories;
+            $this->migrationsDirectories = (array) $migrationsDirectories;
         }
     }
 

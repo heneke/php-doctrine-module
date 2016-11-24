@@ -96,16 +96,16 @@ class MigrationsDefaultConfigurationFactory implements MigrationsConfigurationFa
         $platform = '';
         if ($platformDependent) {
             $platform = $this->entityManager->getConnection()->getDatabasePlatform()->getName();
-            $directory .= DIRECTORY_SEPARATOR . $platform;
+            $directory .= DIRECTORY_SEPARATOR.$platform;
         }
         $configuration->setMigrationsDirectory($directory);
 
         $allMigrationsDirectories = [];
         foreach ($this->entityManagerConfigurationSource->getPersistenceUnits() as $persistenceUnit) {
             /**
-             * @var $persistenceUnit PersistenceUnit
+             * @var PersistenceUnit
              */
-            $persistenceUnit = new $persistenceUnit;
+            $persistenceUnit = new $persistenceUnit();
             $migrationsDirectories = $persistenceUnit->getMigrationsDirectories();
             if ($migrationsDirectories !== null) {
                 if (!is_array($migrationsDirectories)) {
@@ -113,7 +113,7 @@ class MigrationsDefaultConfigurationFactory implements MigrationsConfigurationFa
                 }
                 $migrationsDirectories = array_map(function ($d) use ($platformDependent, $platform) {
                     if ($platformDependent) {
-                        return $d . DIRECTORY_SEPARATOR . $platform;
+                        return $d.DIRECTORY_SEPARATOR.$platform;
                     } else {
                         return $d;
                     }

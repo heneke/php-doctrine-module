@@ -1,4 +1,5 @@
 <?php
+
 namespace HHIT\Doctrine\ORM\Annotation;
 
 use Doctrine\Common\Annotations\Annotation\Required;
@@ -10,7 +11,6 @@ use Doctrine\Common\Annotations\Annotation\Target;
  */
 class BindEntity
 {
-
     /**
      * @var string
      * @Required

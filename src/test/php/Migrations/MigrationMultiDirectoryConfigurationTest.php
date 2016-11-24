@@ -1,4 +1,5 @@
 <?php
+
 namespace HHIT\Doctrine\Migrations;
 
 use Doctrine\DBAL\DriverManager;
@@ -7,7 +8,6 @@ use Doctrine\DBAL\Migrations\Migration;
 
 class MigrationMultiDirectoryConfigurationTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @test
      */
@@ -21,8 +21,8 @@ class MigrationMultiDirectoryConfigurationTest extends \PHPUnit_Framework_TestCa
         $configuration->setMigrationsDirectory('/some/dir');
         $configuration->setMigrationsNamespace('Some\Name\Space');
 
-        $dir1 = __DIR__ . '/../../multi_migrations/unit1';
-        $dir2 = __DIR__ . '/../../multi_migrations/unit2';
+        $dir1 = __DIR__.'/../../multi_migrations/unit1';
+        $dir2 = __DIR__.'/../../multi_migrations/unit2';
 
         $configuration->registerMigrationsFromDirectory($dir1);
         $configuration->registerMigrationsFromDirectory($dir2);
