@@ -26,6 +26,7 @@
 
 namespace HHIT\Doctrine\Console;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Doctrine\DBAL\Migrations\OutputWriter;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand;
@@ -119,6 +120,7 @@ class DoctrineClient
 
     public static function create($fileName = 'doctrine.config.php', $subKeyOrm = 'orm', $subKeyDbal = 'dbal', $subKeyMigrations = 'migrations', OutputInterface $output = null)
     {
+        AnnotationRegistry::registerLoader('class_exists');
         $entityManagerConfigurationSource = ORMConsoleHelper::createEntityManagerConfigurationSource($fileName, $subKeyOrm);
         $entityManager = ORMConsoleHelper::createEntityManager($fileName, $subKeyOrm, $subKeyDbal);
         $configuration = MigrationsConsoleHelper::createConfigurationFactory($entityManagerConfigurationSource, $entityManager, $fileName, $subKeyMigrations)->createConfiguration($output);
