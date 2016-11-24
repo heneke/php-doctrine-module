@@ -136,6 +136,6 @@ class MigrationsDefaultConfigurationFactoryTest extends \PHPUnit_Framework_TestC
         $configuration = $this->factory->createConfiguration();
         $this->assertFalse($configuration->areMigrationsOrganizedByYear());
         $this->assertFalse($configuration->areMigrationsOrganizedByYearAndMonth());
-        $this->assertEquals('/some/dir/sqlite', $configuration->getMigrationsDirectory());
+        $this->assertEquals('/some/dir' . DIRECTORY_SEPARATOR . 'sqlite', $configuration->getMigrationsDirectory());
     }
 }
