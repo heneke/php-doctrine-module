@@ -27,7 +27,7 @@
 namespace HHIT\Doctrine\App\ORM\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use HHIT\Doctrine\ORM\BindEntity;
+use HHIT\Doctrine\ORM\Annotation\BindEntity;
 
 /**
  * @ORM\Entity
