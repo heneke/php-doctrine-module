@@ -29,8 +29,9 @@ namespace HHIT\Doctrine\Migrations;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Doctrine\DBAL\Migrations\Migration;
+use PHPUnit\Framework\TestCase;
 
-class MigrationMultiDirectoryConfigurationTest extends \PHPUnit_Framework_TestCase
+class MigrationMultiDirectoryConfigurationTest extends TestCase
 {
     /**
      * @test

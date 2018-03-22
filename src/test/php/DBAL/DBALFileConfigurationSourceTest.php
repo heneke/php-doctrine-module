@@ -26,7 +26,9 @@
 
 namespace HHIT\Doctrine\DBAL;
 
-class DBALFileConfigurationSourceTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DBALFileConfigurationSourceTest extends TestCase
 {
     /**
      * @test

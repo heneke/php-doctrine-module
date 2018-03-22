@@ -30,8 +30,9 @@ use Doctrine\Common\Cache\Cache;
 use Doctrine\DBAL\Logging\SQLLogger;
 use HHIT\Doctrine\DBAL\Contracts\DBALConfigurationSource;
 use Mockery\MockInterface;
+use PHPUnit\Framework\TestCase;
 
-class DBALDefaultConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
+class DBALDefaultConfigurationFactoryTest extends TestCase
 {
     /**
      * @var MockInterface

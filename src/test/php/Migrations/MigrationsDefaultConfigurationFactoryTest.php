@@ -33,8 +33,9 @@ use HHIT\Doctrine\App\ORM\SamplePersistenceUnit;
 use HHIT\Doctrine\Migrations\Contracts\MigrationsConfigurationSource;
 use HHIT\Doctrine\ORM\Contracts\EntityManagerConfigurationSource;
 use Mockery\MockInterface;
+use PHPUnit\Framework\TestCase;
 
-class MigrationsDefaultConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
+class MigrationsDefaultConfigurationFactoryTest extends TestCase
 {
     /**
      * @var MockInterface

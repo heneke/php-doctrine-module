@@ -47,8 +47,9 @@ use HHIT\Doctrine\ORM\Contracts\EntityManagerFactory;
 use HHIT\Doctrine\ORM\EntityManagerDefaultConfigurationFactory;
 use HHIT\Doctrine\ORM\EntityManagerDefaultFactory;
 use HHIT\Doctrine\ORM\EntityManagerFileConfigurationSource;
+use PHPUnit\Framework\TestCase;
 
-abstract class AbstractIntegTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractIntegTest extends TestCase
 {
     /**
      * @var DBALConfigurationSource

@@ -39,8 +39,9 @@ use HHIT\Doctrine\App\ORM\Entity\SampleEntity;
 use HHIT\Doctrine\DBAL\Contracts\DBALConnectionFactory;
 use HHIT\Doctrine\ORM\Contracts\EntityManagerConfigurationFactory;
 use Mockery\MockInterface;
+use PHPUnit\Framework\TestCase;
 
-class EntityManagerDefaultFactoryTest extends \PHPUnit_Framework_TestCase
+class EntityManagerDefaultFactoryTest extends TestCase
 {
     /**
      * @var MockInterface

@@ -28,8 +28,9 @@ namespace HHIT\Doctrine\ORM;
 
 use HHIT\Doctrine\App\ORM\SamplePersistenceUnit;
 use HHIT\Doctrine\ORM\Contracts\EntityManagerConfigurationSource;
+use PHPUnit\Framework\TestCase;
 
-class EntityManagerFileConfigurationSourceTest extends \PHPUnit_Framework_TestCase
+class EntityManagerFileConfigurationSourceTest extends TestCase
 {
     /**
      * @test

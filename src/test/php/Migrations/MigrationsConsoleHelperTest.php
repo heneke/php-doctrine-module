@@ -29,8 +29,9 @@ namespace HHIT\Doctrine\Migrations;
 use Doctrine\ORM\EntityManagerInterface;
 use HHIT\Doctrine\ORM\Contracts\EntityManagerConfigurationSource;
 use Mockery\MockInterface;
+use PHPUnit\Framework\TestCase;
 
-class MigrationsConsoleHelperTest extends \PHPUnit_Framework_TestCase
+class MigrationsConsoleHelperTest extends TestCase
 {
     /**
      * @var MockInterface

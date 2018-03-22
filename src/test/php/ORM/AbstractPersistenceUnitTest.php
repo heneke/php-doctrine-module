@@ -26,7 +26,9 @@
 
 namespace HHIT\Doctrine\ORM;
 
-class AbstractPersistenceUnitTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AbstractPersistenceUnitTest extends TestCase
 {
     /**
      * @test

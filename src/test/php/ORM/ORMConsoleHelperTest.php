@@ -27,8 +27,9 @@
 namespace HHIT\Doctrine\ORM;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\TestCase;
 
-class ORMConsoleHelperTest extends \PHPUnit_Framework_TestCase
+class ORMConsoleHelperTest extends TestCase
 {
     /**
      * @test

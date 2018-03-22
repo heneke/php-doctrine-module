@@ -26,7 +26,9 @@
 
 namespace HHIT\Doctrine\DBAL;
 
-class DBALConsoleHelperTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DBALConsoleHelperTest extends TestCase
 {
     /**
      * @test

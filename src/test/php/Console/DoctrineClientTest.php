@@ -26,7 +26,9 @@
 
 namespace HHIT\Doctrine\Console;
 
-class DoctrineClientTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DoctrineClientTest extends TestCase
 {
     /**
      * @test
@@ -34,6 +36,6 @@ class DoctrineClientTest extends \PHPUnit_Framework_TestCase
     public function client()
     {
         chdir(__DIR__.'/../../configs');
-        DoctrineClient::create();
+        $this->assertNotNull(DoctrineClient::create());
     }
 }

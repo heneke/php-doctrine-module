@@ -32,8 +32,9 @@ use Doctrine\ORM\Mapping\Driver\YamlDriver;
 use HHIT\Doctrine\App\ORM\SamplePersistenceUnit;
 use HHIT\Doctrine\ORM\Contracts\EntityManagerConfigurationSource;
 use Mockery\MockInterface;
+use PHPUnit\Framework\TestCase;
 
-class EntityManagerDefaultConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
+class EntityManagerDefaultConfigurationFactoryTest extends TestCase
 {
     /**
      * @var MockInterface

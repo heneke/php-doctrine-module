@@ -29,8 +29,9 @@ namespace HHIT\Doctrine\DBAL;
 use Doctrine\DBAL\Configuration;
 use HHIT\Doctrine\DBAL\Contracts\DBALConfigurationFactory;
 use Mockery\MockInterface;
+use PHPUnit\Framework\TestCase;
 
-class DBALDefaultConnectionFactoryTest extends \PHPUnit_Framework_TestCase
+class DBALDefaultConnectionFactoryTest extends TestCase
 {
     /**
      * @var MockInterface
