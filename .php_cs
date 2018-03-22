@@ -1,8 +1,7 @@
 <?php
 
-$finder = Symfony\CS\Finder\DefaultFinder::create()
+$finder = PhpCsFixer\Finder::create()
     ->in('src/main/php')->in('src/test/php');
 
-return Symfony\CS\Config\Config::create()
-    ->fixers(['psr0', 'psr1', 'psr2'])
-    ->finder($finder);
+return PhpCsFixer\Config::create()
+    ->setFinder($finder);
