@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2018 Hendrik Heneke
+ * Copyright (c) 2019 Hendrik Heneke
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@
 namespace HHIT\Doctrine;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\Configuration\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use HHIT\Doctrine\DBAL\Contracts\DBALConfigurationFactory;
 use HHIT\Doctrine\DBAL\Contracts\DBALConfigurationSource;

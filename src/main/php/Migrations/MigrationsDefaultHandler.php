@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2018 Hendrik Heneke
+ * Copyright (c) 2019 Hendrik Heneke
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,9 +26,9 @@
 
 namespace HHIT\Doctrine\Migrations;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Migrations\Configuration\Configuration;
-use Doctrine\DBAL\Migrations\Migration;
+use Doctrine\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\DependencyFactory;
+use Doctrine\Migrations\MigratorConfiguration;
 use HHIT\Doctrine\Migrations\Contracts\MigrationsHandler;
 
 class MigrationsDefaultHandler implements MigrationsHandler
@@ -38,9 +38,15 @@ class MigrationsDefaultHandler implements MigrationsHandler
      */
     private $configuration;
 
+    /**
+     * @var DependencyFactory
+     */
+    private $dependencyFactory;
+
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
+        $this->dependencyFactory = new DependencyFactory($this->configuration);
     }
 
     /**
@@ -72,11 +78,15 @@ class MigrationsDefaultHandler implements MigrationsHandler
      */
     public function migrateTo($to, $rebuild = false, $dryRun = false)
     {
-        $migration = $this->init();
+        $migratorConfiguration = new MigratorConfiguration();
+        $migratorConfiguration->setAllOrNothing(true);
+        $migratorConfiguration->setDryRun($dryRun);
+        $migratorConfiguration->setTimeAllQueries(false);
+
         if ($rebuild) {
-            $migration->migrate(0, $dryRun);
+            $this->dependencyFactory->getMigrator()->migrate(0, $migratorConfiguration);
         }
-        $migration->migrate($to, $dryRun);
+        $this->dependencyFactory->getMigrator()->migrate($to, $migratorConfiguration);
     }
 
     /**
@@ -85,13 +95,5 @@ class MigrationsDefaultHandler implements MigrationsHandler
     public function migrateToLatest($rebuild = false, $dryRun = false)
     {
         $this->migrateTo($this->getLatestVersion(), $rebuild, $dryRun);
-    }
-
-    /**
-     * @return Migration
-     */
-    protected function init()
-    {
-        return new Migration($this->configuration);
     }
 }

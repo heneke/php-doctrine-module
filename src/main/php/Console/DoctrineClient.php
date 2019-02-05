@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2018 Hendrik Heneke
+ * Copyright (c) 2019 Hendrik Heneke
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,16 +27,16 @@
 namespace HHIT\Doctrine\Console;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Doctrine\DBAL\Migrations\Configuration\Configuration;
-use Doctrine\DBAL\Migrations\OutputWriter;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\LatestCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Helper\ConfigurationHelper;
+use Doctrine\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\OutputWriter;
+use Doctrine\Migrations\Tools\Console\Command\DiffCommand;
+use Doctrine\Migrations\Tools\Console\Command\ExecuteCommand;
+use Doctrine\Migrations\Tools\Console\Command\GenerateCommand;
+use Doctrine\Migrations\Tools\Console\Command\LatestCommand;
+use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
+use Doctrine\Migrations\Tools\Console\Command\StatusCommand;
+use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
+use Doctrine\Migrations\Tools\Console\Helper\ConfigurationHelper;
 use Doctrine\DBAL\Tools\Console\Command\ImportCommand;
 use Doctrine\DBAL\Tools\Console\Command\ReservedWordsCommand;
 use Doctrine\DBAL\Tools\Console\Command\RunSqlCommand;

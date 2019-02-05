@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2018 Hendrik Heneke
+ * Copyright (c) 2019 Hendrik Heneke
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,7 @@ return [
         'column' => 'version',
         'table' => 'doctrine_migrations_version',
         'namespace' => 'Some\Name\Space',
-        'directory' => '/dev/null',     # that directory is never used because migrations are loaded from the persistence unit
+        'directory' => __DIR__ .'/../migrations',
         'platform_dependent' => true
     ]
 ];

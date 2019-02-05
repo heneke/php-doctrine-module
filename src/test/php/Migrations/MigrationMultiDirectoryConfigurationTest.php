@@ -3,7 +3,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2018 Hendrik Heneke
+ * Copyright (c) 2019 Hendrik Heneke
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,9 @@
 namespace HHIT\Doctrine\Migrations;
 
 use Doctrine\DBAL\DriverManager;
-use Doctrine\DBAL\Migrations\Configuration\Configuration;
-use Doctrine\DBAL\Migrations\Migration;
+use Doctrine\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\DependencyFactory;
+use Doctrine\Migrations\Migration;
 use PHPUnit\Framework\TestCase;
 
 class MigrationMultiDirectoryConfigurationTest extends TestCase
@@ -49,7 +50,9 @@ class MigrationMultiDirectoryConfigurationTest extends TestCase
         $dir1 = __DIR__.'/../../multi_migrations/unit1';
         $dir2 = __DIR__.'/../../multi_migrations/unit2';
 
+        $configuration->setMigrationsDirectory($dir1);
         $configuration->registerMigrationsFromDirectory($dir1);
+        $configuration->setMigrationsDirectory($dir2);
         $configuration->registerMigrationsFromDirectory($dir2);
 
         $expected = ['20160921103507', '20160921103508'];
@@ -58,8 +61,9 @@ class MigrationMultiDirectoryConfigurationTest extends TestCase
         $this->assertEquals('0', $configuration->getCurrentVersion());
         $this->assertEquals('20160921103508', $configuration->getLatestVersion());
 
-        $migration = new Migration($configuration);
-        $migration->migrate($configuration->getLatestVersion());
+        $dependencyFactory = new DependencyFactory($configuration);
+        $migrator = $dependencyFactory->getMigrator();
+        $migrator->migrate($configuration->getLatestVersion());
 
         $manager = $connection->getSchemaManager();
         $this->assertTrue($manager->tablesExist('carbon_test_1'));

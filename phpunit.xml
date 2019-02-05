@@ -1,6 +1,6 @@
 <phpunit>
     <testsuites>
-        <testsuite>
+        <testsuite name="all">
             <directory suffix="Test.php">src/test/php</directory>
         </testsuite>
     </testsuites>
@@ -8,9 +8,5 @@
         <whitelist>
             <directory>src/main</directory>
         </whitelist>
-        <blacklist>
-            <directory>test</directory>
-            <directory>vendor</directory>
-        </blacklist>
     </filter>
 </phpunit>
